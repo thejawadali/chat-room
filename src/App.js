@@ -1,31 +1,34 @@
-import { useState } from "react"
+import { addDoc, collection, onSnapshot, query, serverTimestamp } from "firebase/firestore"
+import { useEffect, useState } from "react"
 import Message from "./components/BaseMsg"
+import db from "./firebase"
+
 
 function App () {
+  const [msgs, setMsgs] = useState( [] )
+  const [inputText, setInputText] = useState( "" )
 
-  const [msgs, setMsgs] = useState( [
-    {
-      id: 1,
-      txt: "Lorem, ipsum dolor"
-    },
-    {
-      id: 2,
-      txt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates eligendi rem explicabo"
-    },
-    {
-      id: 3,
-      txt: "Lorem ipsum dolor sit amet"
-    },
-  ] )
+  useEffect( () => {
+    onSnapshot( query( collection( db, "messages" ) ), snapshot => {
+      const messages = []
+      snapshot.forEach(snap => {
+        messages.push({
+          ...snap.data(),
+          id: snap.id
+        })
+      });
+      setMsgs(messages)
+    } )
+  }, [] )
 
-  const [msgText, setMsgText] = useState( "" )
-  function sendMessage ( event ) {
+  async function sendMessage ( event ) {
     event.preventDefault()
-    setMsgs( [...msgs, {
-      id: new Date().valueOf(),
-      txt: msgText
-    }] )
-    setMsgText( "" )
+    await addDoc(collection(db, "messages"), {
+      userName: "Mohib Ahsan",
+      msg: inputText,
+      createdOn: serverTimestamp()
+    })
+    setInputText( "" )
   }
 
   return (
@@ -34,7 +37,7 @@ function App () {
       <div className="border w-full text-center">
         {/* Messages Container starts here */}
         <div className="mt-5 inline-block">
-          {msgs.map( msg => <Message userName="Jawad" key={msg.id} msg={msg.txt} /> )}
+          {msgs.map( msg => <Message userName={msg.userName} key={msg.id} msg={msg.msg} /> )}
           {/* <Message userName="Jawad" msg={mesg} /> */}
         </div>
         {/* Messages Container Ends here */}
@@ -44,7 +47,7 @@ function App () {
 
         {/* Input field starts here */}
         <form onSubmit={sendMessage} className="fixed bottom-3 right-10 left-10 flex bg-gray-200 mx-auto rounded-xl overflow-hidden">
-          <input value={msgText} onChange={( e ) => { setMsgText( e.target.value ) }} placeholder="Type a message and press enter" className="bg-transparent flex-1 p-3 text-lg outline-none" type="text" />
+          <input value={inputText} onChange={( e ) => { setInputText( e.target.value ) }} placeholder="Type a message and press enter" className="bg-transparent flex-1 p-3 text-lg outline-none" type="text" />
           <button className="bg-blue-600 text-white px-5">Send</button>
         </form>
         {/* Input field starts here */}

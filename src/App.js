@@ -9,6 +9,10 @@ function App () {
 
   function saveName ( event ) {
     event.preventDefault()
+    if ( !name ) {
+      console.warn( "Enter Name" )
+      return
+    }
     localStorage.clear()
     localStorage.setItem( "name", name )
     setName( "" )
@@ -28,11 +32,11 @@ function App () {
       {/* Main Starts here */}
       <main className="px-5 pb-16 relative top-12">
         {localStorage.getItem( "name" ) ? <ChatRoom /> :
-          <div className="w-full bg-yellow-500 flex justify-center items-center">
-            <form onSubmit={saveName} className="w-full bg-green-500 flex flex-col">
-              <label htmlFor="name">Enter Your Name</label>
-              <input value={name} onChange={( e ) => { setName( e.target.value ) }} type="text" placeholder="E.g. Jawad Ali" id="name" />
-              <button className="bg-red-400">Save</button>
+          <div className="w-full h-screen flex justify-center items-center">
+            <form onSubmit={saveName} className="bg-gray-200 shadow-lg rounded-lg flex flex-col p-10">
+              <label className="ml-1" htmlFor="name">Enter Your Name here</label>
+              <input value={name} onChange={( e ) => { setName( e.target.value ) }} type="text" id="name" placeholder="E.g. Jawad Ali" className="text-lg p-2 my-3 rounded-lg" />
+              <button type="submit" className="bg-green-600 p-2 rounded-lg text-white">Save</button>
             </form>
           </div>
         }

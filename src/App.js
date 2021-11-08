@@ -21,17 +21,17 @@ function App () {
 
 
   return (
-    <div className="max-w-3xl bg-gray-800 mx-auto min-h-screen">
+    <div className="max-w-3xl bg-gray-800 mx-auto min-h-screen fixed inset-0">
       {/* Header Start Here */}
-      <header className="w-full text-center bg-purple-500 py-6  box-border fixed top-0 left-0 right-0 z-10">
+      <header className="w-full text-center bg-purple-500 py-6  box-border top-0 left-0 right-0 z-10 sticky">
         {/* <header className="w-full flex justify-center items-center h-24 bg-purple-700"> */}
         <h1 className="text-white text-2xl cursor-pointer">Chat Room</h1>
       </header>
       {/* Header Ends here */}
 
       {/* Main Starts here */}
-      <main className="px-5 pb-16 relative top-12">
-        {localStorage.getItem( "name" ) ? <ChatRoom /> :
+      <main>
+      {localStorage.getItem( "name" ) ? <ChatRoom /> :
           <div className="w-full h-screen flex justify-center items-center">
             <form onSubmit={saveName} className="bg-gray-200 shadow-lg rounded-lg flex flex-col p-10">
               <label className="ml-1" htmlFor="name">Enter Your Name here</label>

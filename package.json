@@ -2,7 +2,7 @@
   "name": "messenger",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://thejawadali.github.io/messenger",
+  "homepage": "https://thejawadali.github.io/chat-room",
   "dependencies": {
     "@craco/craco": "^6.4.0",
     "@testing-library/jest-dom": "^5.11.4",

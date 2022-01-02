@@ -1,7 +1,7 @@
 # Chat room
 This simple yet interesting app is built with react js and firebase.
 
-See live [Demo](https://thejawadali.github.io/messenger/)
+See live [Demo](https://thejawadali.github.io/chat-room/)
 
 ## Available Scripts
 
